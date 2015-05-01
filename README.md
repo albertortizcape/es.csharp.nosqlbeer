@@ -14,8 +14,8 @@
 
 ### What is this repository for? ###
 
-* Quick summary
+* Quick summary:
 Solución en Visual Studio 2012 para migrar los datos de la base de datos SQLServer que se crea con el script "NoSQLBeerDB_Script/OpenBeerDataBase.sql" a las bases de datos NoSQL como Neo4j, ElasticSearch,...
 
-* Version
+* Version:
 0.0.01
