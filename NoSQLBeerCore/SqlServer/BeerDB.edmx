@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OpenBeerDatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="OpenBeerDatabaseModelStoreContainer">
+          <EntitySet Name="beers" EntityType="OpenBeerDatabaseModel.Store.beers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="breweries" EntityType="OpenBeerDatabaseModel.Store.breweries" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="breweries_geocode" EntityType="OpenBeerDatabaseModel.Store.breweries_geocode" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="styles" EntityType="OpenBeerDatabaseModel.Store.styles" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__beers__brewery_i__22401542" Association="OpenBeerDatabaseModel.Store.FK__beers__brewery_i__22401542">
+            <End Role="breweries" EntitySet="breweries" />
+            <End Role="beers" EntitySet="beers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__beers__style_id__2334397B" Association="OpenBeerDatabaseModel.Store.FK__beers__style_id__2334397B">
+            <End Role="styles" EntitySet="styles" />
+            <End Role="beers" EntitySet="beers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__breweries__brewe__24285DB4" Association="OpenBeerDatabaseModel.Store.FK__breweries__brewe__24285DB4">
+            <End Role="breweries" EntitySet="breweries" />
+            <End Role="breweries_geocode" EntitySet="breweries_geocode" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="beers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="brewery_id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="style_id" Type="int" Nullable="false" />
+          <Property Name="abv" Type="float" Nullable="false" />
+          <Property Name="srm" Type="float" Nullable="false" />
+          <Property Name="upc" Type="int" Nullable="false" />
+          <Property Name="descript" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="breweries">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="address1" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="address2" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="city" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="state" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="code" Type="nvarchar" Nullable="false" MaxLength="25" />
+          <Property Name="country" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="phone" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="website" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="descript" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="breweries_geocode">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="brewery_id" Type="int" Nullable="false" />
+          <Property Name="latitude" Type="float" Nullable="false" />
+          <Property Name="longitude" Type="float" Nullable="false" />
+          <Property Name="accuracy" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="styles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="style_name" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK__beers__brewery_i__22401542">
+          <End Role="breweries" Type="OpenBeerDatabaseModel.Store.breweries" Multiplicity="1" />
+          <End Role="beers" Type="OpenBeerDatabaseModel.Store.beers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="breweries">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="beers">
+              <PropertyRef Name="brewery_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__beers__style_id__2334397B">
+          <End Role="styles" Type="OpenBeerDatabaseModel.Store.styles" Multiplicity="1" />
+          <End Role="beers" Type="OpenBeerDatabaseModel.Store.beers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="styles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="beers">
+              <PropertyRef Name="style_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__breweries__brewe__24285DB4">
+          <End Role="breweries" Type="OpenBeerDatabaseModel.Store.breweries" Multiplicity="1" />
+          <End Role="breweries_geocode" Type="OpenBeerDatabaseModel.Store.breweries_geocode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="breweries">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="breweries_geocode">
+              <PropertyRef Name="brewery_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OpenBeerDatabaseModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="OpenBeerDatabaseEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="beers" EntityType="OpenBeerDatabaseModel.beers" />
+          <EntitySet Name="breweries" EntityType="OpenBeerDatabaseModel.breweries" />
+          <EntitySet Name="breweries_geocode" EntityType="OpenBeerDatabaseModel.breweries_geocode" />
+          <EntitySet Name="styles" EntityType="OpenBeerDatabaseModel.styles" />
+          <AssociationSet Name="FK__beers__brewery_i__32E0915F" Association="OpenBeerDatabaseModel.FK__beers__brewery_i__32E0915F">
+            <End Role="breweries" EntitySet="breweries" />
+            <End Role="beers" EntitySet="beers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__beers__style_id__34C8D9D1" Association="OpenBeerDatabaseModel.FK__beers__style_id__34C8D9D1">
+            <End Role="styles" EntitySet="styles" />
+            <End Role="beers" EntitySet="beers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__breweries__brewe__35BCFE0A" Association="OpenBeerDatabaseModel.FK__breweries__brewe__35BCFE0A">
+            <End Role="breweries" EntitySet="breweries" />
+            <End Role="breweries_geocode" EntitySet="breweries_geocode" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="beers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="brewery_id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="style_id" Type="Int32" Nullable="false" />
+          <Property Name="abv" Type="Double" Nullable="false" />
+          <Property Name="srm" Type="Double" Nullable="false" />
+          <Property Name="upc" Type="Int32" Nullable="false" />
+          <Property Name="descript" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="breweries" Relationship="OpenBeerDatabaseModel.FK__beers__brewery_i__32E0915F" FromRole="beers" ToRole="breweries" />
+          <NavigationProperty Name="styles" Relationship="OpenBeerDatabaseModel.FK__beers__style_id__34C8D9D1" FromRole="beers" ToRole="styles" />
+        </EntityType>
+        <EntityType Name="breweries">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="address1" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="address2" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="city" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="state" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="code" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
+          <Property Name="country" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="phone" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="website" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="descript" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="beers" Relationship="OpenBeerDatabaseModel.FK__beers__brewery_i__32E0915F" FromRole="breweries" ToRole="beers" />
+          <NavigationProperty Name="breweries_geocode" Relationship="OpenBeerDatabaseModel.FK__breweries__brewe__35BCFE0A" FromRole="breweries" ToRole="breweries_geocode" />
+        </EntityType>
+        <EntityType Name="breweries_geocode">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="brewery_id" Type="Int32" Nullable="false" />
+          <Property Name="latitude" Type="Double" Nullable="false" />
+          <Property Name="longitude" Type="Double" Nullable="false" />
+          <Property Name="accuracy" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="breweries" Relationship="OpenBeerDatabaseModel.FK__breweries__brewe__35BCFE0A" FromRole="breweries_geocode" ToRole="breweries" />
+        </EntityType>
+        <EntityType Name="styles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="style_name" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="beers" Relationship="OpenBeerDatabaseModel.FK__beers__style_id__34C8D9D1" FromRole="styles" ToRole="beers" />
+        </EntityType>
+        <Association Name="FK__beers__brewery_i__32E0915F">
+          <End Role="breweries" Type="OpenBeerDatabaseModel.breweries" Multiplicity="1" />
+          <End Role="beers" Type="OpenBeerDatabaseModel.beers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="breweries">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="beers">
+              <PropertyRef Name="brewery_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__beers__style_id__34C8D9D1">
+          <End Role="styles" Type="OpenBeerDatabaseModel.styles" Multiplicity="1" />
+          <End Role="beers" Type="OpenBeerDatabaseModel.beers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="styles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="beers">
+              <PropertyRef Name="style_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__breweries__brewe__35BCFE0A">
+          <End Role="breweries" Type="OpenBeerDatabaseModel.breweries" Multiplicity="1" />
+          <End Role="breweries_geocode" Type="OpenBeerDatabaseModel.breweries_geocode" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="breweries">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="breweries_geocode">
+              <PropertyRef Name="brewery_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OpenBeerDatabaseModelStoreContainer" CdmEntityContainer="OpenBeerDatabaseEntities">
+          <EntitySetMapping Name="beers">
+            <EntityTypeMapping TypeName="OpenBeerDatabaseModel.beers">
+              <MappingFragment StoreEntitySet="beers">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="brewery_id" ColumnName="brewery_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="style_id" ColumnName="style_id" />
+                <ScalarProperty Name="abv" ColumnName="abv" />
+                <ScalarProperty Name="srm" ColumnName="srm" />
+                <ScalarProperty Name="upc" ColumnName="upc" />
+                <ScalarProperty Name="descript" ColumnName="descript" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="breweries">
+            <EntityTypeMapping TypeName="OpenBeerDatabaseModel.breweries">
+              <MappingFragment StoreEntitySet="breweries">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address1" ColumnName="address1" />
+                <ScalarProperty Name="address2" ColumnName="address2" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="descript" ColumnName="descript" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="breweries_geocode">
+            <EntityTypeMapping TypeName="OpenBeerDatabaseModel.breweries_geocode">
+              <MappingFragment StoreEntitySet="breweries_geocode">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="brewery_id" ColumnName="brewery_id" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="accuracy" ColumnName="accuracy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="styles">
+            <EntityTypeMapping TypeName="OpenBeerDatabaseModel.styles">
+              <MappingFragment StoreEntitySet="styles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="style_name" ColumnName="style_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

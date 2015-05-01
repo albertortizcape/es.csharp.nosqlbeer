@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1266ad0e11594850b160ff10301eeb48" Name="Diagrama1" ZoomLevel="73">
+        <EntityTypeShape EntityType="OpenBeerDatabaseModel.beers" Width="1.5" PointX="6.375" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OpenBeerDatabaseModel.breweries" Width="1.5" PointX="3.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OpenBeerDatabaseModel.breweries_geocode" Width="1.75" PointX="3.5" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OpenBeerDatabaseModel.styles" Width="1.5" PointX="8.25" PointY="5.875" IsExpanded="true" />
+        <AssociationConnector Association="OpenBeerDatabaseModel.FK__beers__brewery_i__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="OpenBeerDatabaseModel.FK__beers__style_id__34C8D9D1" ManuallyRouted="false" />
+        <AssociationConnector Association="OpenBeerDatabaseModel.FK__breweries__brewe__35BCFE0A" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

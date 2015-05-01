@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoSQLBeerCore", "NoSQLBeerCore\NoSQLBeerCore.csproj", "{27DE55AD-737C-4097-9CA5-C2CA72C9B179}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FromSqlServerToElasticSearch", "FromSqlServerToElasticSearch\FromSqlServerToElasticSearch.csproj", "{4F921A68-DBA5-448E-8EBD-A10A58C6B725}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FromSqlServerToNeo4j", "FromSqlServerToNeo4j\FromSqlServerToNeo4j.csproj", "{7F210500-825C-46C6-AEA7-CAE80FCADE85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FromSqlServerToRedis", "FromSqlServerToRedis\FromSqlServerToRedis.csproj", "{523CC170-6BFF-49CE-9CA4-68D9FE3D9ED1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27DE55AD-737C-4097-9CA5-C2CA72C9B179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27DE55AD-737C-4097-9CA5-C2CA72C9B179}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27DE55AD-737C-4097-9CA5-C2CA72C9B179}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27DE55AD-737C-4097-9CA5-C2CA72C9B179}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F921A68-DBA5-448E-8EBD-A10A58C6B725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F921A68-DBA5-448E-8EBD-A10A58C6B725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F921A68-DBA5-448E-8EBD-A10A58C6B725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F921A68-DBA5-448E-8EBD-A10A58C6B725}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F210500-825C-46C6-AEA7-CAE80FCADE85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F210500-825C-46C6-AEA7-CAE80FCADE85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F210500-825C-46C6-AEA7-CAE80FCADE85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F210500-825C-46C6-AEA7-CAE80FCADE85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{523CC170-6BFF-49CE-9CA4-68D9FE3D9ED1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{523CC170-6BFF-49CE-9CA4-68D9FE3D9ED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{523CC170-6BFF-49CE-9CA4-68D9FE3D9ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{523CC170-6BFF-49CE-9CA4-68D9FE3D9ED1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
