@@ -1,0 +1,71 @@
+-- Borrado de todos los datos del índice
+curl -XDELETE localhost:9200/nosqlbeers
+
+-- Consulta de las cervezas
+http://localhost:9200/nosqlbeers/beers?pretty=true
+
+-- Busqueda en todos los índices
+http://localhost:9200/_search?q=*
+
+-- Busqueda en todos los tipos el índice
+http://localhost:9200/nosqlbeers/_search?q=*
+http://localhost:9200/nosqlbeers/beer/_search?q=*
+http://localhost:9200/nosqlbeers/beer/_search?q=name:Estrella 
+
+-- Crear documento
+POST /nosqlbeers/beer/
+{
+	"id" : "6000",
+	"name" : "ejemplo",
+	"abv" : 120,
+	"sabor" : "amargo"
+}
+
+-- Buscar documento
+GET /nosqlbeers/beer/_search?q=id:6000
+GET /nosqlbeers/beer/_search?q=sabor:amargo
+
+GET /nosqlbeers/beer/_search?pretty
+{
+    "query": {
+        "query_string" : {
+            "query" : "sabor:*"
+        }
+    }
+}
+
+
+-- Agrupar graduación de cervezas
+POST /nosqlbeers/beer/_search?pretty
+{
+  "size": 0,
+  "aggs": {
+    "Agrupacion_Graduacion_Cervezas": {
+      "terms": {
+     		"field": "abv"
+      }
+    }
+  }
+}
+
+-- Rangos por graduación de las cervezas
+POST /nosqlbeers/beer/_search?pretty
+{
+    "size": 0,
+    "facets" : {
+        "Rango_Cervezas_Graduacion" : {
+            "range" : {
+                "field" : "abv",
+                "ranges" : [
+                    { "to" : 5 },
+                    { "from" : 5, "to" : 8 },
+                    { "from" : 8, "to" : 10 },
+                    { "from" : 10, "to" : 20 },
+                    { "from" : 20, "to" : 50 },
+                    { "from" : 50 }
+                ]
+            }
+        }
+    }
+}
+

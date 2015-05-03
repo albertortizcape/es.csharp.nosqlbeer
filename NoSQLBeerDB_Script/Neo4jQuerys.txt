@@ -1,0 +1,48 @@
+-- Borrar todos los nodos del grafo
+MATCH (n) DELETE n
+
+-- Borrar todos los nodos y sus relaciones
+MATCH (n)
+OPTIONAL MATCH (n)-[r]-()
+DELETE n,r
+
+-- Seleccionar la cerveza con todas sus relaciones
+MATCH (style:Style) --> (beer:Beer) <-[:FABRICA]- (brewery:Brewery) -[:TIENE_FABRICA]-> (geocode:BreweryGeocode)
+WHERE beer.name = 'Estrella Damm'
+RETURN beer, brewery, geocode, style
+
+
+
+-- Demo
+
+CREATE (a:Person {name: 'Alberto'})
+
+MATCH (p:Person)
+WHERE p.name = 'Alberto'
+SET p.age = 25
+
+MATCH (p:Person)
+WHERE p.name = 'Alberto'
+RETURN p
+
+MATCH (b:Beer)
+WHERE b.name = 'Estrella Damm'
+RETURN b
+
+MATCH (p:Person), (b:Beer)
+WHERE p.name = 'Alberto' and b.name = 'Estrella Damm'
+CREATE UNIQUE p-[:BEBE]->b
+
+MATCH (p:Person) -[property:BEBE]-> (b:Beer)
+WHERE p.name = 'Alberto' and b.name = 'Estrella Damm'
+SET property.numerodecervezas = 0
+
+MATCH (p:Person) -[property:BEBE]-> (b:Beer)
+RETURN property
+
+MATCH (p:Person) -[property:BEBE]-> (b:Beer)
+RETURN property.numerodecervezas
+
+MATCH (p:Person) -[property:BEBE]-> (b:Beer)
+WHERE p.name = 'Alberto' and b.name = 'Estrella Damm'
+DELETE property, p
