@@ -15,7 +15,7 @@ namespace NoSQLBeerCore.ElasticSearch
         public Uri UrlElasticSearchGraph { get; private set; }
         public ElasticsearchClient ElasticsearchGraphClient { get; private set; }
 
-        private const string INDEX_NOSQLBEERS = "nosqlbeers";
+        public string INDEX_NOSQLBEERS { get; set; }
 
         private const string TYPE_STYLE = "style";
         private const string TYPE_CATEGORY = "category";
@@ -23,21 +23,25 @@ namespace NoSQLBeerCore.ElasticSearch
         private const string TYPE_BREWERY_GEOCODE = "brewery_geocode";
         private const string TYPE_BEER = "beer";
 
-        public ElasticSearch(Uri pElasticSearchUri)
+        private const string TYPE_NESTED_BEER = "nestedbeer";
+
+        public ElasticSearch(Uri pElasticSearchUri, string pIndex)
         {
             this.UrlElasticSearchGraph = pElasticSearchUri;
             var config = new ConnectionConfiguration(pElasticSearchUri);
             ElasticsearchClient client = new ElasticsearchClient(config);
+            INDEX_NOSQLBEERS = pIndex;
 
             ElasticsearchGraphClient = client;
         }
 
         public void InsertBreweryGeocodes(int pBreweryGeocodeId, double pBrewevyLatitude, double pBreweryLongitude, string pBreweryAccuracy, int pBreweryId)
         {
-            BreweryGeocode breweryGeocode = new BreweryGeocode() { id = pBreweryGeocodeId, latitude = pBrewevyLatitude, longitude = pBreweryLongitude };
+            BreweryGeocode breweryGeocode = new BreweryGeocode() { id = pBreweryGeocodeId, latitude = pBrewevyLatitude, longitude = pBreweryLongitude, brewery = pBreweryId };
             if (!string.IsNullOrEmpty(pBreweryAccuracy)) breweryGeocode.accuracy = pBreweryAccuracy;
 
             string breweryGeocodeJson = JsonConvert.SerializeObject(breweryGeocode);
+            
             ElasticsearchGraphClient
                 .Index(INDEX_NOSQLBEERS, TYPE_BREWERY_GEOCODE, pBreweryGeocodeId.ToString(), breweryGeocodeJson);
         }
@@ -56,17 +60,18 @@ namespace NoSQLBeerCore.ElasticSearch
             if (!string.IsNullOrEmpty(pBreweryDescription)) brewery.description = pBreweryDescription;
 
             string breweryJson = JsonConvert.SerializeObject(brewery);
+            
             ElasticsearchGraphClient
                 .Index(INDEX_NOSQLBEERS, TYPE_BREWERY, pBreweryId.ToString(), breweryJson);
-
         }
 
         public void InsertBeer(int pBeerId, string pBeerName, double pBeerAbv, string pBeerDescription, int pBreweryID, int pStyleID)
         {
-            Beer beer = new Beer() { id = pBeerId, name = pBeerName, abv = pBeerAbv };
+            Beer beer = new Beer() { id = pBeerId, name = pBeerName, abv = pBeerAbv, style = pStyleID, brewery = pBreweryID };
             if (!string.IsNullOrEmpty(pBeerDescription)) beer.description = pBeerDescription;
 
             string beerJson = JsonConvert.SerializeObject(beer);
+            
             ElasticsearchGraphClient
                 .Index(INDEX_NOSQLBEERS, TYPE_BEER, pBeerId.ToString(), beerJson);
         }
@@ -74,8 +79,15 @@ namespace NoSQLBeerCore.ElasticSearch
         public void InsertStyles(int pStyleID, string pStyleName)
         {
             Style style = new Style() { id = pStyleID, name = pStyleName };
+            
             ElasticsearchGraphClient
                 .Index(INDEX_NOSQLBEERS, TYPE_STYLE, pStyleID.ToString(), style);
+        }
+
+        public void InsertNestedBeer(NestedBeer pNestedBeer)
+        {
+             ElasticsearchGraphClient
+                .Index(INDEX_NOSQLBEERS, TYPE_NESTED_BEER, pNestedBeer.id.ToString(), pNestedBeer);
         }
     }
 }

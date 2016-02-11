@@ -96,6 +96,7 @@
     <Compile Include="Elements\Beer.cs" />
     <Compile Include="Elements\Brewery.cs" />
     <Compile Include="Elements\BreweryGeocode.cs" />
+    <Compile Include="Elements\NestedBeer.cs" />
     <Compile Include="Elements\Style.cs" />
     <Compile Include="IMigratorBase.cs" />
     <Compile Include="Neo4j\Neo4j.cs" />

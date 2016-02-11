@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NoSQLBeerCore;
 using NoSQLBeerCore.ElasticSearch;
+using NoSQLBeerCore.Elements;
 using NoSQLBeerCore.SqlServer;
 
 namespace FromSqlServerToElasticSearch
@@ -35,6 +37,11 @@ namespace FromSqlServerToElasticSearch
 
             Console.WriteLine("ElasticSearch - Fourth: Beers");
             MigrateBeers();
+
+            Debugger.Break();
+
+            Console.WriteLine("ElasticSearch - All DATA NESTED IN THE SAME OBJECT/DOCUMENT");
+            MigrateAllNested();
         }
 
         public void MigrateBreweriesGeocodes()
@@ -75,6 +82,35 @@ namespace FromSqlServerToElasticSearch
                 Console.WriteLine(DateTime.Now + " StyleID " + style.ID);
                 ElasticSearchDB.InsertStyles(style.ID, style.style_name);
             }
+        }
+
+        private void MigrateAllNested()
+        {
+            // https://www.devbridge.com/articles/getting-started-with-elastic-using-net-nest-library-part-two/
+            // https://nest.azurewebsites.net/nest/indices/analyze.html
+
+            /* Nested Data Structure
+             * beer
+             * - brewery
+             * -- brewery_geocode
+             * - style
+             * */
+
+            // Get nested data from SqlServer
+            List<NestedBeer> beerList = SqlServer.GetSqlServerNestedBeers();
+
+            // 1º Change the index
+            ElasticSearchDB.INDEX_NOSQLBEERS = "nosqlbeersnested";
+
+            foreach (NestedBeer nestedBeer in beerList)
+            {
+                // 2º Insert beer nested to elasticsearch
+                ElasticSearchDB.InsertNestedBeer(nestedBeer);
+            }
+
+
+            // 3º Create a mapping
+
         }
     }
 }
