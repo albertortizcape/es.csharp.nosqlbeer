@@ -7,25 +7,25 @@ using Nest;
 
 namespace NoSQLBeerCore.Elements
 {
-    [ElasticType(IdProperty = "id", Name = "Beer")]
+    [ElasticsearchType(IdProperty = "id", Name = "Beer")]
     public class Beer
     {
-        [ElasticProperty(Name = "_id", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.Long)]
+        [Number]
         public int id { get; set; }
 
-        [ElasticProperty(Name = "_name", Index = FieldIndexOption.Analyzed, Type = FieldType.String)]
+        [String(Index = FieldIndexOption.Analyzed)]
         public string name { get; set; }
 
-        [ElasticProperty(Name = "_abv", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.Double)]
+        [Number]
         public double abv { get; set; }
 
-        [ElasticProperty(Name = "_description", Index = FieldIndexOption.Analyzed, Type = FieldType.String)]
+        [String(Index = FieldIndexOption.Analyzed)]
         public string description { get; set; }
 
-        [ElasticProperty(Name = "_style", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.Long)]
+        [Number]
         public int style { get; set; }
 
-        [ElasticProperty(Name = "_brewery", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.Long)]
+        [Number]
         public int brewery { get; set; }
     }
 }

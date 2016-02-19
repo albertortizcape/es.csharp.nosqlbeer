@@ -7,13 +7,13 @@ using Nest;
 
 namespace NoSQLBeerCore.Elements
 {
-    [ElasticType(IdProperty = "id", Name = "Style")]
+    [ElasticsearchType(IdProperty = "id", Name = "Style")]
     public class Style
     {
-        [ElasticProperty(Name = "_id", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.Long)]
+        [Number]
         public int id { get; set; }
 
-        [ElasticProperty(Name = "_name", Index = FieldIndexOption.Analyzed, Type = FieldType.String)]
+        [String(Index = FieldIndexOption.Analyzed)]
         public string name { get; set; }
     }
 }

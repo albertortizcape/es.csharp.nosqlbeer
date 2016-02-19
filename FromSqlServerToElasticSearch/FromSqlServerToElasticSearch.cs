@@ -88,6 +88,7 @@ namespace FromSqlServerToElasticSearch
         {
             // https://www.devbridge.com/articles/getting-started-with-elastic-using-net-nest-library-part-two/
             // https://nest.azurewebsites.net/nest/indices/analyze.html
+            // https://nest.azurewebsites.net/nest/indices/create-indices.html
 
             /* Nested Data Structure
              * beer
@@ -106,11 +107,8 @@ namespace FromSqlServerToElasticSearch
             {
                 // 2º Insert beer nested to elasticsearch
                 ElasticSearchDB.InsertNestedBeer(nestedBeer);
+                Console.WriteLine(DateTime.Now + " NestedBeerInserted " + nestedBeer.id);
             }
-
-
-            // 3º Create a mapping
-
         }
     }
 }

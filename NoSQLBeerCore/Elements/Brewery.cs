@@ -7,40 +7,40 @@ using Nest;
 
 namespace NoSQLBeerCore.Elements
 {
-    [ElasticType(IdProperty = "id", Name = "Brewery")]
+    [ElasticsearchType(IdProperty = "id", Name = "Brewery")]
     public class Brewery
     {
-        [ElasticProperty(Name = "_id", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.Long)]
+        [Number]
         public int id { get; set; }
 
-        [ElasticProperty(Name = "_name", Index = FieldIndexOption.Analyzed, Type = FieldType.String)]
+        [String(Index = FieldIndexOption.Analyzed)]
         public string name { get; set; }
 
-        [ElasticProperty(Name = "_address1", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.String)]
+        [String(Index = FieldIndexOption.NotAnalyzed)]
         public string address1 { get; set; }
 
-        [ElasticProperty(Name = "_address2", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.String)]
+        [String(Index = FieldIndexOption.NotAnalyzed)]
         public string address2 { get; set; }
 
-        [ElasticProperty(Name = "_city", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.String)]
+        [String(Index = FieldIndexOption.NotAnalyzed)]
         public string city { get; set; }
 
-        [ElasticProperty(Name = "_state", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.String)]
+        [String(Index = FieldIndexOption.NotAnalyzed)]
         public string state { get; set; }
 
-        [ElasticProperty(Name = "_code", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.String)]
+        [String(Index = FieldIndexOption.NotAnalyzed)]
         public string code { get; set; }
 
-        [ElasticProperty(Name = "_country", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.String)]
+        [String(Index = FieldIndexOption.NotAnalyzed)]
         public string country { get; set; }
 
-        [ElasticProperty(Name = "_phone", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.String)]
+        [String(Index = FieldIndexOption.NotAnalyzed)]
         public string phone { get; set; }
 
-        [ElasticProperty(Name = "_website", Index = FieldIndexOption.NotAnalyzed, Type = FieldType.String)]
+        [String(Index = FieldIndexOption.NotAnalyzed)]
         public string website { get; set; }
 
-        [ElasticProperty(Name = "_description", Index = FieldIndexOption.Analyzed, Type = FieldType.String)]
+        [String(Index = FieldIndexOption.Analyzed)]
         public string description { get; set; }
     }
 }

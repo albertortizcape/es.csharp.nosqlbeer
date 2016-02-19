@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Elasticsearch.Net;
-using Elasticsearch.Net.Connection;
+using Nest;
 using Newtonsoft.Json;
 using NoSQLBeerCore.Elements;
 
@@ -12,8 +12,11 @@ namespace NoSQLBeerCore.ElasticSearch
 {
     public class ElasticSearch
     {
-        public Uri UrlElasticSearchGraph { get; private set; }
-        public ElasticsearchClient ElasticsearchGraphClient { get; private set; }
+        // Nest and ElasticSearch.net nuget documentation:
+        // https://github.com/elastic/elasticsearch-net
+
+        public ElasticClient ElasticsearchNestClient { get; private set; }
+        public ElasticLowLevelClient ElasticsearchLowLevelClient { get; private set; }
 
         public string INDEX_NOSQLBEERS { get; set; }
 
@@ -27,12 +30,12 @@ namespace NoSQLBeerCore.ElasticSearch
 
         public ElasticSearch(Uri pElasticSearchUri, string pIndex)
         {
-            this.UrlElasticSearchGraph = pElasticSearchUri;
-            var config = new ConnectionConfiguration(pElasticSearchUri);
-            ElasticsearchClient client = new ElasticsearchClient(config);
             INDEX_NOSQLBEERS = pIndex;
+            ElasticsearchNestClient = new ElasticClient(pElasticSearchUri);
 
-            ElasticsearchGraphClient = client;
+            // We create a lowlevelclient for elastic search (is the old ElasticSearch.Net)
+            ConnectionConfiguration config = new ConnectionConfiguration(pElasticSearchUri);
+            ElasticsearchLowLevelClient = new ElasticLowLevelClient(config);
         }
 
         public void InsertBreweryGeocodes(int pBreweryGeocodeId, double pBrewevyLatitude, double pBreweryLongitude, string pBreweryAccuracy, int pBreweryId)
@@ -40,10 +43,8 @@ namespace NoSQLBeerCore.ElasticSearch
             BreweryGeocode breweryGeocode = new BreweryGeocode() { id = pBreweryGeocodeId, latitude = pBrewevyLatitude, longitude = pBreweryLongitude, brewery = pBreweryId };
             if (!string.IsNullOrEmpty(pBreweryAccuracy)) breweryGeocode.accuracy = pBreweryAccuracy;
 
-            string breweryGeocodeJson = JsonConvert.SerializeObject(breweryGeocode);
-            
-            ElasticsearchGraphClient
-                .Index(INDEX_NOSQLBEERS, TYPE_BREWERY_GEOCODE, pBreweryGeocodeId.ToString(), breweryGeocodeJson);
+            ElasticsearchNestClient
+                .Index(breweryGeocode, i => i.Index(INDEX_NOSQLBEERS).Type(TYPE_BREWERY_GEOCODE));
         }
 
         public void InsertBrewery(int pBreweryId, string pBreweryName, string pBreweryAddress1, string pBreweryAddress2, string pBreweryCity, string pBreweryState, string pBreweryCode, string pBreweryCountry, string pBreweryPhone, string pBreweryWebSite, string pBreweryDescription)
@@ -58,11 +59,9 @@ namespace NoSQLBeerCore.ElasticSearch
             if (!string.IsNullOrEmpty(pBreweryPhone)) brewery.phone = pBreweryPhone;
             if (!string.IsNullOrEmpty(pBreweryWebSite)) brewery.website = pBreweryWebSite;
             if (!string.IsNullOrEmpty(pBreweryDescription)) brewery.description = pBreweryDescription;
-
-            string breweryJson = JsonConvert.SerializeObject(brewery);
             
-            ElasticsearchGraphClient
-                .Index(INDEX_NOSQLBEERS, TYPE_BREWERY, pBreweryId.ToString(), breweryJson);
+            ElasticsearchNestClient
+                .Index(brewery, i=>i.Index(INDEX_NOSQLBEERS).Type(TYPE_BREWERY));
         }
 
         public void InsertBeer(int pBeerId, string pBeerName, double pBeerAbv, string pBeerDescription, int pBreweryID, int pStyleID)
@@ -70,24 +69,25 @@ namespace NoSQLBeerCore.ElasticSearch
             Beer beer = new Beer() { id = pBeerId, name = pBeerName, abv = pBeerAbv, style = pStyleID, brewery = pBreweryID };
             if (!string.IsNullOrEmpty(pBeerDescription)) beer.description = pBeerDescription;
 
-            string beerJson = JsonConvert.SerializeObject(beer);
-            
-            ElasticsearchGraphClient
-                .Index(INDEX_NOSQLBEERS, TYPE_BEER, pBeerId.ToString(), beerJson);
+            ElasticsearchNestClient
+                .Index(beer, i => i.Index(INDEX_NOSQLBEERS).Type(TYPE_BEER));
         }
 
         public void InsertStyles(int pStyleID, string pStyleName)
         {
             Style style = new Style() { id = pStyleID, name = pStyleName };
             
-            ElasticsearchGraphClient
-                .Index(INDEX_NOSQLBEERS, TYPE_STYLE, pStyleID.ToString(), style);
+            ElasticsearchNestClient
+                .Index(style, i => i.Index(INDEX_NOSQLBEERS).Type(TYPE_STYLE));
         }
 
         public void InsertNestedBeer(NestedBeer pNestedBeer)
         {
-             ElasticsearchGraphClient
-                .Index(INDEX_NOSQLBEERS, TYPE_NESTED_BEER, pNestedBeer.id.ToString(), pNestedBeer);
+            ElasticsearchNestClient
+                .Index(pNestedBeer, i => i.Index(INDEX_NOSQLBEERS).Type(TYPE_NESTED_BEER));
+
+            //string nestedBeerJson = JsonConvert.SerializeObject(pNestedBeer);
+            //ElasticsearchLowLevelClient.Index<NestedBeer>(INDEX_NOSQLBEERS, TYPE_NESTED_BEER, nestedBeerJson);
         }
     }
 }
